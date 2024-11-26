@@ -1,12 +1,22 @@
-import { useParams } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 
 const User = () => {
-  const { id } = useParams();
+  const data = useLoaderData();
+
   return (
-    <div>
-      <h4>user id: {id}</h4>
+    <div className="user">
+      {data.map((d) => (
+        <Link key={d.id} to={d.id.toString()}>
+          {d.name}
+        </Link>
+      ))}
     </div>
   );
+};
+
+export const userLoader = async () => {
+  const res = await fetch("https://jsonplaceholder.typicode.com/users");
+  return res.json();
 };
 
 export default User;
